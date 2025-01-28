@@ -4,7 +4,7 @@ Este é um sistema desktop para cadastro de usuários utilizando JavaFX e banco 
 O objetivo do projeto é demonstrar um sistema funcional com operações de CRUD.
 
 ## Tela Inicial
-![Tela Inicial](pf/src/main/resources/web/css/imagem/bg.png)
+![Tela Inicial](pf/src/main/resources/web/css/image/bg.png)
 
 ## Funcionalidades
 - Cadastro e login de usuários.
