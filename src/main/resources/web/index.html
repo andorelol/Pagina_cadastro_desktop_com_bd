@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!-- Corrigido link para o CSS -->
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-6O+ct8LJ0z6HV+tDFN5KqD1KZ5z7pVEUwFf5yNfJc/s3txkckE9Vf3I5I97P/7NN" crossorigin="anonymous">
+</head>
+<body>
+<div class="wrapper">
+    <span class="bg-animate"></span>
+    <span class="bg-animate2"></span>
+
+    <!-- Tela de login -->
+    <div class="form-box login">
+        <h2 class="animation" style="--i:0; --j:21;">Login</h2>
+        <form id="loginForm">
+            <div class="input-box animation" style="--i:1; --j:22;">
+                <input type="text" id="loginUsername" required>
+                <label for="">Username</label>
+                <i class='bx bxs-user'></i>
+            </div>
+            <div class="input-box animation" style="--i:2; --j:23;">
+                <input type="password" id="loginPassword" required>
+                <label for="">Password</label>
+                <i class='bx bxs-lock-alt'></i>
+            </div>
+            <button type="submit" class="btn animation" style="--i:3; --j:24;">Login</button>
+            <div class="logreg-link animation" style="--i:4; --j:25;">
+                <p>Don't have an account? <a href="#" class="register-link">Sign Up</a></p>
+            </div>
+        </form>
+    </div>
+
+    <!-- Tela de informações do login -->
+    <div class="info-text login">
+        <h2 class="animation" style="--i:0; --j:20">Welcome Back!</h2>
+        <p class="animation" style="--i:1; --j:21">Texto de exemplo, usado para demonstrar a composição visual.</p>
+    </div>
+
+    <!-- Tela de cadastro -->
+    <div class="form-box register">
+        <h2 class="animation" style="--i:17; --j:0;">Sign Up</h2>
+        <form id="registerForm">
+            <div class="input-box animation" style="--i:18; --j:1;">
+                <input type="text" id="registerUsername" required>
+                <label for="">Username</label>
+                <i class='bx bxs-user'></i>
+            </div>
+            <div class="input-box animation" style="--i:19; --j:2;">
+                <input type="text" id="registerEmail" required>
+                <label for="">Email</label>
+                <i class='bx bxs-envelope'></i>
+            </div>
+            <div class="input-box animation" style="--i:20; --j:3;">
+                <input type="password" id="registerPassword" required>
+                <label for="">Password</label>
+                <i class='bx bxs-lock-alt'></i>
+            </div>
+            <button type="submit" class="btn animation" style="--i:21; --j:4;">Sign Up</button>
+            <div class="logreg-link animation" style="--i:22; --j:5;">
+                <p>Already have an account? <a href="#" class="login-link">Login</a></p>
+            </div>
+        </form>
+    </div>
+
+    <!-- Tela de informações do cadastro -->
+    <div class="info-text register">
+        <h2 class="animation" style="--i:17; --j:0;">Welcome Back!</h2>
+        <p class="animation" style="--i:18; --j:1;">Texto de exemplo, usado para demonstrar a composição visual.</p>
+    </div>
+
+    <!-- Mensagem de sucesso após cadastro -->
+    <div class="alert alert-success" id="successMessage" style="display:none;">
+        <strong>Usuário cadastrado com sucesso!</strong>
+    </div>
+</div>
+
+<script>
+    const wrapper = document.querySelector('.wrapper');
+    const registerLink = document.querySelector('.register-link');
+    const loginLink = document.querySelector('.login-link');
+
+    // Função para ativar a tela de registro
+    function activateRegister() {
+        wrapper.classList.add('active');
+    }
+
+    // Função para ativar a tela de login
+    function activateLogin() {
+        wrapper.classList.remove('active');
+    }
+
+    // Verificar se os elementos estão disponíveis e adicionar os event listeners
+    if (registerLink && loginLink && wrapper) {
+        registerLink.addEventListener('click', activateRegister);
+        loginLink.addEventListener('click', activateLogin);
+    } else {
+        console.error("Elementos não encontrados no DOM.");
+    }
+
+    // Função para exibir um alerta de sucesso
+    function showSuccessAlert(message) {
+        // Exibe a mensagem de sucesso em uma div específica
+        const successMessage = document.getElementById('successMessage');
+        successMessage.textContent = message;
+        successMessage.style.display = 'block';
+    }
+
+    // Função para exibir um alerta de erro
+    function showErrorAlert(message) {
+        alert(message);
+    }
+
+    // Função para cadastrar usuário
+    document.querySelector('#registerForm').addEventListener('submit', (event) => {
+        event.preventDefault(); // Previne o comportamento padrão do formulário
+
+        const username = document.querySelector('#registerUsername').value;
+        const email = document.querySelector('#registerEmail').value;
+        const password = document.querySelector('#registerPassword').value;
+
+        // Verificar se os campos não estão vazios
+        if (!username || !email || !password) {
+            showErrorAlert("Por favor, preencha todos os campos.");
+            return;
+        }
+
+        // Verificar se o usuário já foi cadastrado
+        const existingUser = localStorage.getItem('user');
+        if (existingUser) {
+            showErrorAlert("Usuário já cadastrado.");
+            return;
+        }
+
+        // Criar objeto de usuário
+        const newUser = { username, email, password };
+
+        // Salvar o usuário no banco de dados ou no localStorage (para simplificação)
+        localStorage.setItem('user', JSON.stringify(newUser));
+
+        // Exibir alerta de sucesso
+        showSuccessAlert('Usuário cadastrado com sucesso!');
+
+        // Redirecionar para a tela de login
+        wrapper.classList.remove('active');
+    });
+
+    // Função para realizar login
+    document.querySelector('#loginForm').addEventListener('submit', (event) => {
+        event.preventDefault(); // Previne o comportamento padrão do formulário
+
+        const username = document.querySelector('#loginUsername').value;
+        const password = document.querySelector('#loginPassword').value;
+
+        // Verificar se o usuário existe no banco de dados ou localStorage
+        const storedUser = JSON.parse(localStorage.getItem('user'));
+
+        if (!storedUser) {
+            showErrorAlert("Nenhum usuário cadastrado.");
+            return;
+        }
+
+        // Verificar se o login está correto
+        if (username === storedUser.username && password === storedUser.password) {
+            showSuccessAlert("Login realizado com sucesso!");
+        } else {
+            showErrorAlert("Credenciais inválidas.");
+        }
+    });
+</script>
+
+<script src="js/script.js"></script>
+</body>
+</html>
